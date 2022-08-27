@@ -1,31 +1,34 @@
 {% extends "_base.html" %}
 {% block title %}{{ super() }} Queryables {% endblock %}
 {% block crumbs %}{{ super() }}
-/ <a href="../../collections">Collections</a>
-/ <a href="./{{ data['id'] }}">{{ data['title'] }}</a>
-/ <a href="./{{ data['id'] }}/queryables">Queryables</a>
+/ <a href="../../collections">{% trans %}Collections{% endtrans %}</a>
+/ <a href="./{{ data['id'] }}">{{ data['title'] | truncate( 25 ) }}</a>
+/ <a href="./{{ data['id'] }}/queryables">{% trans %}Queryables{% endtrans %}</a>
 {% endblock %}
 {% block body %}
-    <section id="queryables">
-      <h1>Queryables of {{ data['title'] }}</h1>
-      <p>
-        For this collection these queryable parameters are available.
-      </p>
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th>Queryable</th>
-            <th>Type</th>
-          </tr>
-        </thead>  
-        <tbody>
+<section id="queryables">
+  <div class="card shadow mb-4">
+    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+      <h6 class="m-0 font-weight-bold text-primary">
+        {% trans %}Queryables of{% endtrans %} {{ data['title'] }}</h6>
+    </div>
+
+    <table class="table table-striped card-body">
+      <thead>
+        <tr>
+          <th>{% trans %}Queryable{% endtrans %}</th>
+          <th>{% trans %}Type{% endtrans %}</th>
+        </tr>
+      </thead>
+      <tbody>
         {% for queryable in data['queryables'] %}
         <tr>
-            <td>{{ queryable['queryable'] }} </td>
-            <td>{{ queryable['type'] }}</td>
+          <td>{{ queryable['queryable'] }} </td>
+          <td>{{ queryable['type'] }}</td>
         </tr>
         {% endfor %}
       </tbody>
-      </table>
-    </section>
+    </table>
+  </div>
+</section>
 {% endblock %}

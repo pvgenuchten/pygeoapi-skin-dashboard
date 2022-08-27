@@ -11,14 +11,13 @@ main {
 }
 
 .crumbs {
-    background-color:rgb(230, 230, 230);
-    padding: 6px;
+  height: 4.375rem;
+  align-items: center;
+  padding: 0 0.75rem;
 }
 
 .crumbs a {
-    padding: 0px 6px;
     color:black;
-/*    text-transform: capitalize;*/
 }
 
 #items-map {

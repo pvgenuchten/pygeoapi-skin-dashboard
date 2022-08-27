@@ -28,7 +28,7 @@
 /  <a href="{{ link['href'] }}">{{ link['title'] | truncate( 25 ) }}</a>
   {% endif %}
 {% endfor %}
-/ <a href="../items">Items</a>
+/ <a href="../items">{% trans %}Items{% endtrans %}</a>
 / <a href="./{{ data['id'] }}">{{ ptitle | truncate( 25 ) }}</a>
 {% endblock %}
 {% block extrahead %}
@@ -38,18 +38,14 @@
 
 {% block body %}
     <section id="item">
-      <div class="row">
-        <div class="col-sm">
-          <h1>{{ ptitle }}</h1>
-        </div>
-      </div>       
+           
   
       <div class="row">
         <div class="col-sm-12 col-md-6">
           <div class="card shadow mb-4">
             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
               <h6 class="m-0 font-weight-bold text-primary">
-                Map
+                {% trans %}Map{% endtrans %}
               </h6>
             </div>
             <!-- Card Body -->
@@ -65,9 +61,9 @@
                   <div id="limit" class="col-sm-12">
                     {% for link in data['links'] %}
                     {% if link['rel'] == 'prev' %}
-                    <a class="btn btn-info" role="button" href="./{{ data['prev'] }}">Previous</a>
+                    <a class="btn btn-info" role="button" href="./{{ data['prev'] }}">{% trans %}Previous{% endtrans %}</a>
                     {% elif link['rel'] == 'next' %}
-                    <a class="btn btn-info" role="button" href="./{{ data['next'] }}">Next</a>
+                    <a class="btn btn-info" role="button" href="./{{ data['next'] }}">{% trans %}Next{% endtrans %}</a>
                     {% endif %}
                     {% endfor %}
                   </div>
@@ -81,7 +77,7 @@
           <div class="card shadow mb-4">
             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                 <h6 class="m-0 font-weight-bold text-primary">
-                  Item
+                  {{ ptitle }}
                 </h6>
             </div>
             <!-- Card Body -->
@@ -89,13 +85,13 @@
               <table class="table table-striped">
                   <thead>
                   <tr>
-                    <th>Property</th>
-                    <th>Value</th>
+                    <th>{% trans %}Property{% endtrans %}</th>
+                    <th>{% trans %}Value{% endtrans %}</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <td>id</td>
+                    <td>{% trans %}id{% endtrans %}</td>
                     <td>{{ data.id }}</td>
                   </tr>
                   {% for k, v in data['properties'].items() %}
@@ -128,6 +124,20 @@
                 </table>
               </div>
             </div>
+            <div class="card shadow mb-3">
+              <div class="card-header">
+                {% trans %}Links{% endtrans %}
+              </div>
+              <div class="card-body">
+                    {% for link in data['links'] %}
+                      {% if link['rel'] not in ['self','alternate'] %}
+                        <a class="btn btn-sm btn-info pt-2" href="{{ link['href'] }}"><span class="fa-{{ link['rel'] }}"></span> {{ link['title'] }}</a>
+                      {% endif %}
+                    {% endfor %}
+                  </div>
+                </div>
+              </div>
+            </div>
         </div>
       </div>
     </section>
@@ -139,10 +149,10 @@
     map.addLayer(new L.TileLayer(
         '{{ config['server']['map']['url'] }}', {
             maxZoom: 18,
-            attribution: '{{ config['server']['map']['attribution'] }}'
+            attribution: '{{ config['server']['map']['attribution'] | safe }}'
         }
     ));
-    var geojson_data = {{ data |to_json }};
+    var geojson_data = {{ data | to_json | safe }};
     var items = new L.GeoJSON(geojson_data);
 
     map.addLayer(items);
